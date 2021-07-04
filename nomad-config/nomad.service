@@ -1,0 +1,12 @@
+[Unit]
+Description=nomad agent
+Requires=network-online.target
+After=network-online.target
+[Service]
+LimitNOFILE=65536
+Restart=on-failure
+ExecStart=/usr/bin/nomad agent -config /etc/nomad.d/nomad-server-east.hcl
+KillSignal=SIGINT
+RestartSec=5s
+[Install]
+WantedBy=multi-user.target
