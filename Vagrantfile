@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
   end
 
   # 4-node configuration - Region A
-  (1..4).each do |i|
+  (1..3).each do |i|
     config.vm.define "nomad-a-#{i}" do |n|
       n.vm.provision "shell", path: "node-install-a.sh"
       if i == 1
