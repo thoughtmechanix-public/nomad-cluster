@@ -21,6 +21,7 @@ job "orders-job" {
       }
 
       service {
+        name = "orders"
         # This tells Consul to monitor the service on the port
         # labelled "http". Since Nomad allocates high dynamic port
         # numbers, we use labels to refer to them.

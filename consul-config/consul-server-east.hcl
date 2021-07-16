@@ -6,5 +6,5 @@ advertise_addr   = "{{ GetInterfaceIP `enp0s8` }}"
 client_addr      = "0.0.0.0"
 bind_addr        = "{{GetInterfaceIP `enp0s8`}}"
 ui               = true
-datacenter       = "toronto"
+datacenter       = "cary"
 retry_join       = ["172.16.1.101", "172.16.1.102", "172.16.1.103"]
