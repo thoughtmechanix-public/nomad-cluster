@@ -75,6 +75,7 @@ sudo systemctl disable systemd-resolved.service
 sudo cp /vagrant/dns-config/resolv.conf /etc/resolv.conf
 sudo cp /vagrant/dns-config/dnsmasq_conf /etc/dnsmasq.d/default
 sudo systemctl restart dnsmasq
+sudo rm /etc/resolv.conf
 
 for bin in cfssl cfssl-certinfo cfssljson
 do
