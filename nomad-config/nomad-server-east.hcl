@@ -6,7 +6,7 @@ server {
   job_gc_threshold = "2m"
 }
 
-datacenter = "toronto"
+datacenter = "cary"
 
 region = "east"
 
