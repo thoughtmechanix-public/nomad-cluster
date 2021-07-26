@@ -1,0 +1,12 @@
+[Unit]
+Description=krakend
+Requires=network-online.target
+After=network-online.target
+[Service]
+LimitNOFILE=65536
+Restart=on-failure
+ExecStart=/usr/bin/krakend run -c  /etc/krakend.d/orders-krakend.json
+KillSignal=SIGINT
+RestartSec=5s
+[Install]
+WantedBy=multi-user.target
