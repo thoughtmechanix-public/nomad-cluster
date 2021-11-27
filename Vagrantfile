@@ -35,6 +35,8 @@ Vagrant.configure(2) do |config|
 
       n.vm.hostname = "api-gateway"
       n.vm.network "private_network", ip: "172.16.1.145"
+      n.vm.network "public_network", type: "dhcp", bridge: "en0: Wi-Fi (AirPort)"
+
   end
 
 end
