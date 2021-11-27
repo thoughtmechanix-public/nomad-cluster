@@ -9,9 +9,9 @@
           state: stopped
           enabled: no
 
-      - name: cope dnsmasq conf files
+      - name: copy dnsmasq conf files
         copy:
-          src: /vagrant/ansible/files/dnsmasq/dnsmasq_conf
+          src: /vagrant/ansible/playbooks/roles/dnsmasq/files/dnsmasq_conf
           dest: /etc/dnsmasq.d/default
           remote_src: yes 
        

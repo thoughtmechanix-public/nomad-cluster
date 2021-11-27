@@ -40,13 +40,13 @@
 
 - name: Copy orders-krakend.json files to /etc/consul
   copy:
-    src: /vagrant/ansible/files/krakend/orders-krakend.json
+    src: /vagrant/ansible/playbooks/roles/krakend/files/orders-krakend.json
     dest: /etc/krakend.d/orders-krakend.json
     remote_src: yes
 
 - name: Copy kraken.service files to systemd directory
   copy:
-    src: /vagrant/ansible/files/krakend/kraken.service
+    src: /vagrant/ansible/playbooks/roles/krakend/files/kraken.service
     dest: /etc/systemd/system/kraken.service
     remote_src: yes
 

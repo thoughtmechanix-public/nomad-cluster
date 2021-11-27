@@ -20,13 +20,13 @@
   
   - name: Copy consul files to /etc/consul
     copy:
-      src: /vagrant/ansible/files/consul/consul-server-east.hcl
+      src: /vagrant/ansible/playbooks/roles/consul/files/consul-server-east.hcl
       dest: /etc/consul.d/consul-server-east.hcl
       remote_src: yes
 
   - name: Copy consul files to systemd directory
     copy:
-      src: /vagrant/ansible/files/consul/consul.service
+      src: /vagrant/ansible/playbooks/roles/consul/files/consul.service
       dest: /etc/systemd/system/consul.service  
       remote_src: yes
 

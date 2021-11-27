@@ -19,13 +19,13 @@
 
 - name: Copy nomad files to /etc/nomad.d
   copy:
-    src: /vagrant/ansible/files/nomad/nomad-server-east.hcl
+    src: /vagrant/ansible/playbooks/roles/nomad/files/nomad-server-east.hcl
     dest: /etc/nomad.d/nomad-server-east.hcl
     remote_src: yes
 
 - name: Copy nomad files to systemd directory
   copy:
-    src: /vagrant/ansible/files/nomad/nomad.service
+    src: /vagrant/ansible/playbooks/roles/nomad/files/nomad.service
     dest: /etc/systemd/system/nomad.service  
     remote_src: yes
 
