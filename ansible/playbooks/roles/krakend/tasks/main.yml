@@ -1,0 +1,56 @@
+---
+- name: Download cloudflare tools
+  get_url:
+    url:  "https://pkg.cfssl.org/R1.2/{{item}}_linux-amd64" 
+    dest: "/tmp/{{item}}"
+    mode: 0755
+  loop:
+    - cfssl 
+    - cfssl-certinfo 
+    - cfssljson
+
+- name: Copy cfssl files to /usr/local/bin
+  copy:
+    src: "/tmp/{{item}}"
+    dest: "/usr/local/bin/{{item}}"
+    remote_src: yes
+  loop:
+    - cfssl 
+    - cfssl-certinfo 
+    - cfssljson
+
+- name: Download krakend
+  get_url:
+    url: https://repo.krakend.io/bin/krakend_1.4.1_amd64.tar.gz
+    dest: /tmp/krakend.tar.gz
+    mode: 0755
+
+- name: Uncompress krakend
+  unarchive:
+    src: /tmp/krakend.tar.gz
+    dest: /
+    mode: 0755
+    remote_src: yes
+
+- name: Create the /etc/krakend.d directory
+  file:
+    path: /etc/krakend.d
+    state: directory
+    mode: "a+w"
+
+- name: Copy orders-krakend.json files to /etc/consul
+  copy:
+    src: /vagrant/ansible/files/krakend/orders-krakend.json
+    dest: /etc/krakend.d/orders-krakend.json
+    remote_src: yes
+
+- name: Copy kraken.service files to systemd directory
+  copy:
+    src: /vagrant/ansible/files/krakend/kraken.service
+    dest: /etc/systemd/system/kraken.service
+    remote_src: yes
+
+- name:  Restart the krakend. service
+  service:
+    name: kraken.service
+    state: restarted    

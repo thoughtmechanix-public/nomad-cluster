@@ -1,0 +1,49 @@
+{
+  "version": 2,
+  "extra_config": {
+    "github_com/devopsfaith/krakend-opencensus": {
+      "exporters": {
+        "zipkin": {
+          "collector_url": "http://localhost:9411/api/v2/spans",
+          "service_name": "krakend"
+        }
+      }
+    }
+  },
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "name": "myorders",
+  "sd_providers": {
+    "providers": {
+      "dns": true
+    },
+    "hosts": [
+      {
+        "sd": "dns",
+        "host": "orders.service.consul"
+      }
+    ]
+  },
+  "endpoints": [
+    {
+      "endpoint": "/v1/orders/healthcheck",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/healthcheck",
+          "sd": "dns",
+          "host": [
+            "orders.service.consul"
+          ],
+          "disable_host_sanitize": true,
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

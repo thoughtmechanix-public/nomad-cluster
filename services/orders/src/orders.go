@@ -1,24 +1,29 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"orders/controllers"
+	"orders/middleware"
+	"os"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
-/// Existing code from above
-func handleRequests() {
-	// creates a new instance of a mux router
-	myRouter := mux.NewRouter().StrictSlash(true)
+func registerRequests() {
+	myRouter := mux.NewRouter()
 
 	myRouter.HandleFunc("/healthcheck", controllers.HealthCheckHandler)
-	log.Fatal(http.ListenAndServe(":8888", myRouter))
+	myRouter.Use(middleware.RequestLoggerMiddleWare)
+
+	myRouter.HandleFunc("/orders/{Id}", controllers.GetOrderByIdHandler)
+
+	loggedRouter := handlers.LoggingHandler(os.Stdout, myRouter)
+	log.Fatal(http.ListenAndServe(":8888", loggedRouter))
 }
 
 func main() {
-	fmt.Println("Orders service")
-	handleRequests()
+	log.Println("Listening on 8888...")
+	registerRequests()
 }
