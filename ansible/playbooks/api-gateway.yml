@@ -1,0 +1,8 @@
+---
+  - hosts: api-gateway
+    become: yes
+    roles:
+      - docker
+      - consul
+      - dnsmasq
+      - krakend

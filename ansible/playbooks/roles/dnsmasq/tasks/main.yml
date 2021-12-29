@@ -1,0 +1,27 @@
+---
+      - name: install dnsmasq
+        apt:
+          name: dnsmasq
+    
+      - name: Stop systemd-resolved.service
+        service:
+          name: systemd-resolved
+          state: stopped
+          enabled: no
+
+      - name: copy dnsmasq conf files
+        copy:
+          src: /vagrant/ansible/playbooks/roles/dnsmasq/files/dnsmasq_conf
+          dest: /etc/dnsmasq.d/default
+          remote_src: yes 
+       
+      - name: Restart dnsmasq
+        service:
+          name: dnsmasq
+          state: started
+          enabled: yes  
+          
+      - name: Remove /etc/resolve.conf
+        file:
+           path: /etc/resolv.conf
+           state: absent    

@@ -1,0 +1,8 @@
+---
+  - hosts: nomad-a-1,nomad-a-2,nomad-a-3
+    become: yes
+    roles:
+      - docker
+      - consul
+      - dnsmasq
+      - nomad 

@@ -1,0 +1,38 @@
+---
+  - name: Download consul
+    get_url:
+      url: https://releases.hashicorp.com/consul/1.10.4/consul_1.10.4_linux_amd64.zip
+      dest: /tmp/consul.zip
+      mode: 0755
+
+  - name: Unzip consul
+    unarchive:
+      src: /tmp/consul.zip
+      dest: /usr/bin
+      mode: 0755
+      remote_src: yes
+
+  - name: Create the /etc/consul.d directory
+    file:
+      path: /etc/consul.d
+      state: directory
+      mode: "a+w"
+  
+  - name: Copy consul files to /etc/consul
+    copy:
+      src: /vagrant/ansible/playbooks/roles/consul/files/consul-server-east.hcl
+      dest: /etc/consul.d/consul-server-east.hcl
+      remote_src: yes
+
+  - name: Copy consul files to systemd directory
+    copy:
+      src: /vagrant/ansible/playbooks/roles/consul/files/consul.service
+      dest: /etc/systemd/system/consul.service  
+      remote_src: yes
+
+  - name:  Restart the consul service
+    service:
+      name: consul.service
+      state: restarted    
+
+
