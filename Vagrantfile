@@ -17,8 +17,6 @@ Vagrant.configure(2) do |config|
         # Expose the nomad ports  
         n.vm.network "forwarded_port", guest: 4646, host: 4646, auto_correct: true
         n.vm.network "forwarded_port", guest: 8500, host: 8500, auto_correct: true
-        n.vm.network "forwarded_port", guest: 9411, host: 9411, auto_correct: true
-       # n.vm.provision "shell", path: "node-install-a-1.sh"
       end
 
       n.vm.hostname = "nomad-a-#{i}"

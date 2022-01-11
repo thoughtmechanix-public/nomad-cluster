@@ -1,3 +1,4 @@
+
 packer {
   required_plugins {
     docker = {
