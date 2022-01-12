@@ -43,16 +43,16 @@ The `nomad-a-1` server will expose the following ports:
 
 2. **8500**. Open port for the consul UI.  Once all of the servers are up and running you should be able to open a web from the host machine at http://localhost:8500 to bring up the consul UI. 
 
-**NOTE: ** All servers are running on a private network that is accessible on the host server running the Virtualbox VMs.  The nomad servers are numbered 172.16.1.101, 102, and 103. The API gateway is running on 172.16.1.45.  In addition, the API-gateway does try to retrieve a public IP from your DHCP server.  This is harded code in the Vagrantfile to `wlp0s20f3` network interface.  This could be different on your own machine.  If you do not have a `wlp0s20f3` network interface Vagrant will prompt you during the provisioning of the api-gateway to select an interface.  Select the interface you want to use and then modify the Vagrantfile to use that interface.
+**NOTE:** All servers are running on a private network that is accessible on the host server running the Virtualbox VMs.  The nomad servers are numbered 172.16.1.101, 102, and 103. The API gateway is running on 172.16.1.45.  In addition, the API-gateway does try to retrieve a public IP from your DHCP server.  This is harded code in the Vagrantfile to `wlp0s20f3` network interface.  This could be different on your own machine.  If you do not have a `wlp0s20f3` network interface Vagrant will prompt you during the provisioning of the api-gateway to select an interface.  Select the interface you want to use and then modify the Vagrantfile to use that interface.
 
 
 ## Building the Service
 
 For this project I included a small example microservice to test whether or not the nomad and consul clusters were working properly. The microservice is written in Golang. To build it you need to take two steps:
 
-1. **Compile the service**. Change to the `services/orders` directory and run `make build`.  Thiswill build the binary.  Since I deploy everything to linux I am setting the `GOOS` environment to `linux`.
+1. **Compile the service**. Change to the `services/orders` directory and run `make build`.  This will build the binary.  Since I deploy everything to linux I am setting the `GOOS` environment to `linux`.
 
-2. **Build the docker binary**.  To deploy to `nomad` we need to build and deploy our service using a container or virtual machine. To accomplish this, I pack up our example service using a `docker`.  The `docker` container is built using Hashicorp's `packer` tool.  To build the container change to the `services/orders/provision` directory and issue the following command:
+2. **Build the docker binary**.  To deploy to our Nomad cluster we need to build and deploy our service using a container or virtual machine. To accomplish this, I pack up our example service using a `docker`.  The `docker` container is built using Hashicorp's `packer` tool.  To build the container change to the `services/orders/provision` directory and issue the following command:
 
 ```shell
 packer build -var "docker_username=*****" -var "docker_password=*****" -var "docker_repo=*****" orders.pkr.hcl
@@ -60,11 +60,11 @@ packer build -var "docker_username=*****" -var "docker_password=*****" -var "doc
 
 You will need to provide your docker hub credentials (`docker_username` and `docker_password`) and the docker repository (`docker_repo`) you want to push the docker container. The docker repository is where we will pull the docker image from when we later deploy the service using nomad.
 
-For more detailed explanation of how to build a service using packer checkout on this [blog post](https://thoughtmechanix.com/posts/8.01.2021_packer/).
+For more detailed explanation of how to build a service using `packer`, checkout on this [blog post](https://thoughtmechanix.com/posts/8.01.2021_packer/).
 
 ## Deploying the Service
 
-All deploys to our nomad cluster are done using the nomad CLI installed locally and then deploying to the cluster. After you have built the above service, change to the `deploy/` directory, and run the `nomad run orders.nomad` command. Nomad will then deploy the service to all three of the nomad instances.  
+All deploys to our nomad cluster are done using the nomad CLI installed locally. After you have built the above service, change to the `deploy/` directory, and run the `nomad run orders.nomad` command. Nomad will then deploy the service to all three of the nomad instances.  
 
 ## Testing the Server and services have deployed
 
